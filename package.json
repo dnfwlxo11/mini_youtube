@@ -1,0 +1,37 @@
+{
+  "name": "node-react-boilerplate",
+  "version": "1.0.0",
+  "description": "node + react basic clone coding",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "backend": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dnfwlxo11/node-react-boilerplate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "http://git@github.com:dnfwlxo11/node-react-boilerplate.git#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.10",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "bugs": {
+    "url": "https://github.com/dnfwlxo11/node-react-boilerplate/issues"
+  }
+}

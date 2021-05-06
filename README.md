@@ -1,1 +1,2 @@
-# youtube_clone
+# node-react-boilerplate
+node + react register... etc basic boilerplate

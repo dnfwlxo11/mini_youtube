@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from "react-router-dom";
+
 import { Provider } from 'react-redux';
 import 'antd/dist/antd.css'
 import { applyMiddleware, createStore } from 'redux';
@@ -19,7 +21,9 @@ ReactDOM.render(
 			window.__REDUX_DEVTOOLS_EXTENSION__()
 		)}
 	>
-		<App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
 	</Provider>
 	, document.getElementById('root')
 );

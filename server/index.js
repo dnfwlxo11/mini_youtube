@@ -10,10 +10,12 @@ const { User } = require('./models/User')
 const { auth } = require('./middleware/auth')
 const config = require('./config/key')
 const multer = require('multer');
+const ffmpeg = require('fluent-ffmpeg');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
 
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
@@ -131,6 +133,39 @@ app.post('/api/video/uploadFiles', (req, res) => {
 
         return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename })
     })
+});
+
+app.post('/api/video/thumbnail', (req, res) => {
+
+    let thumbsFilePath ="";
+    let fileDuration ="";
+
+    ffmpeg.ffprobe(req.body.url, function(err, metadata){
+        console.dir(metadata);
+        console.log(metadata.format.duration);
+
+        fileDuration = metadata.format.duration;
+    })
+
+    ffmpeg(req.body.url)
+        .on('filenames', function (filenames) {
+            console.log('Will generate ' + filenames.join(', '))
+            thumbsFilePath = "uploads/thumbnails/" + filenames[0];
+        })
+        .on('end', () => {
+            console.log('Screenshots taken');
+            return res.json({ success: true, thumbsFilePath: thumbsFilePath, fileDuration: fileDuration })
+        })
+        .on('err', (err) => {
+            console.log(err);
+            return res.json({ success: false, err });
+        })
+        .screenshots({
+            count: 1,
+            folder: 'uploads/thumbnails',
+            size: '320x240',
+            filename: 'thumbnail-%b.png'
+        });
 });
 
 const port = 5000

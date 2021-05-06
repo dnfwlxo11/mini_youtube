@@ -23,6 +23,9 @@ function VideoUploadPage() {
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
     const [Category, setCategory] = useState("Film & Animation");
+    const [FilePath, setFilePath] = useState("")
+    const [Duration, setDuration] = useState("")
+    const [ThumbnailPath, setThumbnailPath] = useState("")
 
     const onTitleChange = (e) => {
         setVideoTitle(e.currentTarget.value)
@@ -31,7 +34,7 @@ function VideoUploadPage() {
     const onDescriptionChange = (e) => {
         setDescription(e.currentTarget.value)
     }
-    
+
     const onPrivateChange = (e) => {
         setPrivate(e.currentTarget.value)
     }
@@ -43,15 +46,31 @@ function VideoUploadPage() {
     const onDrop = (files) => {
         let formData = new FormData;
         const config = {
-            header: {'content-type': 'multipart/form-data'}
+            header: { 'content-type': 'multipart/form-data' }
         }
 
         formData.append('file', files[0])
 
         axios.post('/api/video/uploadFiles', formData, config)
             .then(res => {
-                if(res.data.success) {
+                if (res.data.success) {
                     console.log(res.data)
+
+                    let variable = {
+                        url: res.data.url,
+                        fileName: res.data.fileName
+                    }
+
+                    axios.post('/api/video/thumbnail', variable)
+                        .then(res => {
+                            if (res.data.success) {
+                                setFilePath(res.data.url);
+                                setDuration(res.data.fileDuration);
+                                setThumbnailPath(res.data.thumbsFilePath)
+                            } else {
+                                alert('썸네일 생성 실패')
+                            }
+                        })
                 } else {
                     alert('비디오 업로드 실패')
                 }
@@ -79,9 +98,12 @@ function VideoUploadPage() {
                             </div>
                         )}
                     </Dropzone>
-                    <div>
-                        <img src alt />
-                    </div>
+
+                    {ThumbnailPath &&
+                        <div>
+                            <img src={`http://localhost:5000/${ThumbnailPath}`} alt="thumbnail" />
+                        </div>
+                    }
                 </div>
 
                 <br /><br />

@@ -6,8 +6,10 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 
 const { User } = require('./models/User')
+// const { Video } = require('./models/Video')
 const { auth } = require('./middleware/auth')
 const config = require('./config/key')
+const multer = require('multer');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -22,15 +24,31 @@ mongoose.connect(config.mongoURI, {
 }).then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err))
 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`)
+    },
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname)
+        if (ext !== '.mp4' || ext !== '.AVI') {
+            return cb(res.status(400).end('only jpg, png, mp4 is allowed'), false);
+        }
+        cb(null, true)
+    }
+});
 
+var upload = multer({ storage: storage }).single("file")
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
-})
+});
 
 app.get('/api/hello', (req, res) => {
     res.send('hello')
-})
+});
 
 app.post('/api/users/register', (req, res) => {
     // 회원 가입시 필요한 정보들을 클라이언트에서 가져오면, DB에 넣어줌.
@@ -43,7 +61,7 @@ app.post('/api/users/register', (req, res) => {
             success: true
         })
     })
-})
+});
 
 app.post('/api/users/login', (req, res) => {
     // DB에 로그인 정보가 있는지 검색
@@ -68,15 +86,15 @@ app.post('/api/users/login', (req, res) => {
 
                 // 토큰을 쿠키, 로컬스토리지 등에 저장 가능, 여기선 쿠키
                 res.cookie('x_auth', user.token)
-                .status(200)
-                .json({
-                    loginSuccess: true,
-                    userId: user._id
-                })
+                    .status(200)
+                    .json({
+                        loginSuccess: true,
+                        userId: user._id
+                    })
             })
         })
     })
-})
+});
 
 app.get('/api/users/auth', auth, (req, res) => {
     // 정상이라면 auth 미들웨어를 통과하고 진행되고 있는 것, Authentication이 True
@@ -90,20 +108,30 @@ app.get('/api/users/auth', auth, (req, res) => {
         role: req.user.role,
         image: req.user.image
     })
-})
+});
 
 app.get('/api/users/logout', auth, (req, res) => {
-    User.findOneAndUpdate({_id: req.user._id}, {token: ""}, 
-    (err, user) => {
-        if (err) return res.json({
-            success: false, err
-        });
+    User.findOneAndUpdate({ _id: req.user._id }, { token: "" },
+        (err, user) => {
+            if (err) return res.json({
+                success: false, err
+            });
 
-        return res.status(200).json({
-            success: true
+            return res.status(200).json({
+                success: true
+            })
         })
+});
+
+app.post('/api/video/uploadFiles', (req, res) => {
+    upload(req, res, err => {
+        if (err) {
+            return res.json({ success: false, err })
+        }
+
+        return res.json({ success: true, url: res.req.file.path, fileName: res.req.file.filename })
     })
-})
+});
 
 const port = 5000
 

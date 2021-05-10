@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken')
 
 const { User } = require('./models/User')
 const { Video } = require('./models/Video')
-// const { Video } = require('./models/Video')
 const { auth } = require('./middleware/auth')
 const config = require('./config/key')
 const multer = require('multer');
@@ -137,10 +136,10 @@ app.post('/api/video/uploadFiles', (req, res) => {
 });
 
 app.post('/api/video/thumbnail', (req, res) => {
-    let thumbsFilePath ="";
-    let fileDuration ="";
-    
-    ffmpeg.ffprobe(req.body.url, function(err, metadata){
+    let thumbsFilePath = "";
+    let fileDuration = "";
+
+    ffmpeg.ffprobe(req.body.url, function (err, metadata) {
         console.dir(metadata);
         console.log(metadata.format.duration);
 
@@ -175,6 +174,24 @@ app.post('/api/video/uploadVideo', (req, res) => {
         if (err) return res.json({ success: false, err });
         res.status(200).json({ success: true });
     });
+});
+
+app.post('/api/video/getVideo', (req, res) => {
+    Video.findOne({ "_id": req.body.videoId })
+        .populate('writer')
+        .exec((err, video) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({ success: true, video });
+        });
+});
+
+app.get('/api/video/getVideos', (req, res) => {
+    Video.find()
+        .populate('writer')
+        .exec((err, videos) => {
+            if (err) return res.status(400).send(err);
+            res.status(200).json({ success: true, videos });
+        });
 });
 
 const port = 5000

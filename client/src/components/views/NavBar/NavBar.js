@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LeftMenu from './Sections/LeftMenu';
 import RightMenu from './Sections/RightMenu';
-import { Drawer, Button } from 'antd';
+import { Button, Drawer } from 'antd';
 import './Sections/Navbar.css';
 
 const Logo = require('../../../assets/HappyTubeLogo.png');

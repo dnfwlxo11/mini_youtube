@@ -23,7 +23,7 @@ function VideoUploadPage(props) {
     const user = useSelector(state => state.user);
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
-    const [Private, setPrivate] = useState(0);
+    const [Privacy, setPrivacy] = useState(0);
     const [Category, setCategory] = useState("Film & Animation");
     const [FilePath, setFilePath] = useState("")
     const [Duration, setDuration] = useState("")
@@ -38,7 +38,7 @@ function VideoUploadPage(props) {
     }
 
     const onPrivateChange = (e) => {
-        setPrivate(e.currentTarget.value)
+        setPrivacy(e.currentTarget.value)
     }
 
     const onCategoryChange = (e) => {
@@ -59,14 +59,16 @@ function VideoUploadPage(props) {
                     console.log(res.data)
 
                     let variable = {
-                        url: res.data.url,
+                        filePath: res.data.filePath,
                         fileName: res.data.fileName
                     }
+
+
+                    setFilePath(res.data.filePath);
 
                     axios.post('/api/video/thumbnail', variable)
                         .then(res => {
                             if (res.data.success) {
-                                setFilePath(res.data.url);
                                 setDuration(res.data.fileDuration);
                                 setThumbnailPath(res.data.thumbsFilePath)
                             } else {
@@ -86,7 +88,7 @@ function VideoUploadPage(props) {
             writer: user.userData._id,
             title: VideoTitle,
             description: Description,
-            privacy: Private,
+            privacy: Privacy,
             filePath: FilePath,
             category: Category,
             duration: Duration,
@@ -96,6 +98,7 @@ function VideoUploadPage(props) {
         axios.post('/api/video/uploadVideo', variables)
             .then(res => {
                 if (res.data.success) {
+                    console.log(variables)
                     message.success('비디오 업로드 성공');
                     setTimeout(() => {
                         props.history.push('/');

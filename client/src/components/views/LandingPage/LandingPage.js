@@ -14,12 +14,12 @@ function LandingPage() {
 		axios.get('/api/video/getVideos')
 			.then(res => {
 				if (res.data.success) {
-					setVideos(res.data.videos)
+                    setVideos(res.data.videos)
 				} else {
 					alert('비디오 목록 가져오기 실패')
 				}
 			})
-	}, [])
+	}, []);
 
 	const renderCards = Videos.map((video, index) => {
 
@@ -28,9 +28,10 @@ function LandingPage() {
 
         return <Col lg={6} md={8} xs={24}>
             <div style={{ position: 'relative' }}>
-                <a href={`/video/${video._id}`} >
+                {/* <a href={`/video/${video._id}`} > */}
+                <a href={'/video/detail'}>
                 <img style={{ width: '100%' }} alt="thumbnail" src={`http://localhost:5000/${video.thumbnail}`} />
-                <div className=" duration"
+                <div className="duration"
                     style={{ bottom: 0, right:0, position: 'absolute', margin: '4px', 
                     color: '#fff', backgroundColor: 'rgba(17, 17, 17, 0.8)', opacity: 0.8, 
                     padding: '2px 4px', borderRadius:'2px', letterSpacing:'0.5px', fontSize:'12px',

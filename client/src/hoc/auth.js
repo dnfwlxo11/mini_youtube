@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { authUser } from '../_actions/user_action'
 
-export default function (SpecificComponent, option, adminRoute = null) {
+export default function (ComposedClass, option, adminRoute = null) {
 	// option
 	// null -> 아무나
 	// true -> 로그인 유저만
@@ -13,18 +13,18 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
 		useEffect(() => {
 			dispatch(authUser())
-			.then(response => {
+			.then(res => {
 				// 로그인하지 않은 상태
-				if (!response.payload.isAuth) {
+				if (!res.payload.isAuth) {
 					if (option) {
 						props.history.push('/login')
 					}
 				} else {
 					// 로그인한 상태
-					if (adminRoute && !response.payload.isAdmin) {
+					if (adminRoute && !res.payload.isAdmin) {
 						props.history.push('/')
 					} else {
-						if (!option) {
+						if (option === false) {
 							props.history.push('/')
 						}
 					}
@@ -33,7 +33,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 		}, [])
 
 		return (
-			<SpecificComponent {...props} />
+			<ComposedClass {...props} />
 		)
 	}
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
+import Subscribe from './Sections/Subscribe';
 
 function VideoDetailPage(props) {
 
@@ -11,8 +12,6 @@ function VideoDetailPage(props) {
     const [Video, setVideo] = useState([]);
 
     useEffect(() => {
-        let mounted = true;
-
         axios.post('/api/video/getVideo', VideoVariable)
             .then(res => {
                 if (res.data.success) {
@@ -32,8 +31,7 @@ function VideoDetailPage(props) {
                         
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls />
                         <List.Item
-
-                        // actions={[<LikeDislikes video videoId={videoId} userId={localStorage.getItem('userId')}  />, <Subscriber userTo={Video.writer._id} userFrom={localStorage.getItem('userId')} />]}
+                            actions={[<Subscribe userTo={ Video.writer._id } userFrom={ localStorage.getItem('userId') } />]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer.image} />}

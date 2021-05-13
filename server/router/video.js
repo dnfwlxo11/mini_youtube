@@ -63,7 +63,7 @@ router.post('/thumbnail', (req, res) => {
             count: 1,
             folder: 'uploads/thumbnails',
             size: '320x240',
-            filename: 'thumbnail-%b.png'
+            filename: 'thumbnail-%b.png' 
         });
 });
 
@@ -100,7 +100,7 @@ router.post('/getSubscriptionVideos', (req, res) => {
     Subscriber.find({ 'userFrom': req.body.userFrom })
         .exec((err, subscriber) => {
             if(err) return res.status(400).send(err);
-            
+
             subscriber.map((subscriber, index) => {
                 subscribedUser.push(subscriber.userTo)
             });

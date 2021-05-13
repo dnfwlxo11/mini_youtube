@@ -34,6 +34,7 @@ router.post('/unsubscribe', (req, res) => {
 });
 
 router.post('/subscribe', (req, res) => {
+    console.log(req.body)
     const subscribe = new Subscriber(req.body);
 
     subscribe.save((err, doc) => {

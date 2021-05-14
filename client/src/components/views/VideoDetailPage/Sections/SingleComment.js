@@ -47,6 +47,8 @@ function SingleComment(props) {
         <span onClick={openReply} key="comment-basic-reply-to">답글</span>
     ]
 
+    
+
     return (
         <div>
             <Comment
@@ -66,7 +68,7 @@ function SingleComment(props) {
             ></Comment>
 
 
-            {OpenReply &&
+            {props.depth < 3 && OpenReply &&
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>
                     <TextArea
                         style={{ width: '100%', borderRadius: '5px' }}

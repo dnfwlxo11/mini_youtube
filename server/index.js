@@ -23,6 +23,7 @@ mongoose.connect(config.mongoURI, {
 app.use('/api/users', require('./router/user'));
 app.use('/api/video', require('./router/video'));
 app.use('/api/subscribe', require('./router/subscribe'));
+app.use('/api/comment', require('./router/comment'));
 
 const port = 5000
 

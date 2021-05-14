@@ -13,7 +13,7 @@ function SingleComment(props) {
     const [OpenReply, setOpenReply] = useState(false)
 
     const onHandleChange = (e) => {
-        setCommentValue(e.currentTarget.CommentValue)
+        setCommentValue(e.currentTarget.value)
     }
 
     const openReply = () => {
@@ -37,7 +37,7 @@ function SingleComment(props) {
                     setOpenReply(!OpenReply)
                     props.refreshFunction(response.data.comment)
                 } else {
-                    alert('Failed to save Comment')
+                    alert('댓글 저장 실패')
                 }
             })
     }
@@ -78,7 +78,6 @@ function SingleComment(props) {
                     <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>답글</Button>
                 </form>
             }
-
         </div>
     )
 }

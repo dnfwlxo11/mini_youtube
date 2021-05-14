@@ -40,20 +40,6 @@ function Comments(props) {
 
     return (
         <div>
-            <br />
-            <p> 댓글</p>
-            <hr />
-
-            {props.CommentLists && props.CommentLists.map((comment, index) => (
-                (!comment.responseTo &&
-                    <React.Fragment>
-                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
-                        <ReplyComment CommentLists={props.CommentLists} postId={props.postId} parentCommentId={comment._id} refreshFunction={props.refreshFunction} />
-                    </React.Fragment>
-                )
-            ))}
-
-            {/* Root Comment Form */}
             <form style={{ display: 'flex' }} onSubmit={onSubmit}>
                 <TextArea
                     style={{ width: '100%', borderRadius: '5px' }}
@@ -65,6 +51,19 @@ function Comments(props) {
                 <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>제출</Button>
             </form>
 
+            <br />
+            <p> 댓글</p>
+            <hr />
+
+            {props.CommentLists && props.CommentLists.map((comment, index) => (
+                (!comment.responseTo &&
+                    <React.Fragment>
+                        {console.log(comment)}
+                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
+                        <ReplyComment CommentLists={props.CommentLists} postId={props.postId} parentCommentId={comment._id} refreshFunction={props.refreshFunction} />
+                    </React.Fragment>
+                )
+            ))}
         </div>
     )
 }

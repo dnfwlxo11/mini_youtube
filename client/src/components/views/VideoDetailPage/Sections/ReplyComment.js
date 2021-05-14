@@ -5,15 +5,15 @@ function ReplyComment(props) {
 
     const [ChildCommentNumber, setChildCommentNumber] = useState(0)
     const [OpenReplyComments, setOpenReplyComments] = useState(false)
-    useEffect(() => {
 
+    useEffect(() => {
         let commentNumber = 0;
         props.CommentLists.map((comment) => {
-
             if (comment.responseTo === props.parentCommentId) {
                 commentNumber++
             }
         })
+
         setChildCommentNumber(commentNumber)
     }, [props.CommentLists, props.parentCommentId])
 
@@ -30,16 +30,15 @@ function ReplyComment(props) {
             </React.Fragment>
         ))
 
-    const handleChange = () => {
+    const onHandleChange = () => {
         setOpenReplyComments(!OpenReplyComments)
     }
-
 
     return (
         <div>
             {ChildCommentNumber > 0 &&
-                <p style={{ fontSize: '14px', margin: 0, color: 'gray' }}
-                    onClick={handleChange} >
+                <p style={{ fontSize: '14px', marginLeft: '40px', color: 'gray' }}
+                    onClick={onHandleChange} >
                     View {ChildCommentNumber} more comment(s)
              </p>
             }

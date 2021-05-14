@@ -12,7 +12,7 @@ const CommentSchema = Schema({
         ref: 'Video'
     },
 
-    reponseTo: {
+    responseTo: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },

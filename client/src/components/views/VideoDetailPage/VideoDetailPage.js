@@ -47,11 +47,8 @@ function VideoDetailPage(props) {
             <Row gutter>
                 <Col lg={18} xs={24}>
                     <div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
-
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls />
-                        <List.Item
-                            actions={[subscribeButton]}
-                        >
+                        <List.Item actions={[subscribeButton]}>
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer.image} />}
                                 title={Video.writer.name}
@@ -59,9 +56,8 @@ function VideoDetailPage(props) {
                             />
                             <div></div>
                         </List.Item>
-
-                        <Comment CommentLists={Comments} postId={videoId_param} refreshFunction={updateComment} />
                     </div>
+                    <Comment CommentLists={Comments} postId={Video._id} refreshFunction={updateComment} />
                 </Col>
                 <Col lg={6} xs={24}>
                     <SideVideo />

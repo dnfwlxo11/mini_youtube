@@ -5,6 +5,7 @@ import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
+import LikeDislikes from './Sections/LikeDislikes';
 
 function VideoDetailPage(props) {
     const user = useSelector(state => state.user)
@@ -48,7 +49,7 @@ function VideoDetailPage(props) {
                 <Col lg={18} xs={24}>
                     <div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls />
-                        <List.Item actions={[subscribeButton]}>
+                        <List.Item actions={[<LikeDislikes video userId={user.userId} videoId={videoId_param} />, subscribeButton]}>
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer.image} />}
                                 title={Video.writer.name}

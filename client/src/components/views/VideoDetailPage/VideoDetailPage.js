@@ -41,15 +41,12 @@ function VideoDetailPage(props) {
     }
 
     if (Video.writer) {
-
-        const subscribeButton = Video.writer._id !== user.userData._id && <Subscribe userTo={Video.writer._id} userFrom={user.userData._id} />
-
         return (
             <Row gutter>
                 <Col lg={18} xs={24}>
                     <div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${Video.filePath}`} controls />
-                        <List.Item actions={[<LikeDislikes video userId={user.userId} videoId={videoId_param} />, subscribeButton]}>
+                        <List.Item actions={[<LikeDislikes video userId={user.userId} videoId={videoId_param} />, <Subscribe userTo={Video.writer._id} userFrom={user.userData._id} />]}>
                             <List.Item.Meta
                                 avatar={<Avatar src={Video.writer.image} />}
                                 title={Video.writer.name}

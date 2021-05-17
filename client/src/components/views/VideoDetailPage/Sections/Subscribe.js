@@ -65,6 +65,12 @@ function Subscribe(props) {
         }
     }
 
+    const cantSubscribe = () => {
+        alert('구독을 할 수 없는 상태입니다.')
+    }
+
+    const clickEvent = (props.userFrom !== undefined) && (props.userTo !== props.userFrom)  ? onSubscribe : cantSubscribe
+    
     return (
         <div>
             <button
@@ -73,7 +79,7 @@ function Subscribe(props) {
                     borderRadius: '2px', color: 'white',
                     padding: '10px 16px', fontWeight: '500', fontSize: '1rem', textTransform: 'uppercase'
                 }}
-                onClick={onSubscribe}
+                onClick={clickEvent}
             >
                 {SubscribeNumber} {Subscribed ? 'subscribed' : 'subscribe'}
             </button>

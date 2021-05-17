@@ -23,8 +23,8 @@ function ReplyComment(props) {
             <React.Fragment>
                 {comment.responseTo === parentCommentId &&
                     <div style={{ width: '80%', marginLeft: '40px' }}>
-                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} depth={ChildCommentNumber} />
-                        <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment._id} postId={props.postId} refreshFunction={props.refreshFunction} depth={ChildCommentNumber} />
+                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} depth={props.depth + 1} />
+                        <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment._id} postId={props.postId} refreshFunction={props.refreshFunction} depth={props.depth + 1} />
                     </div>
                 }
             </React.Fragment>

@@ -44,7 +44,7 @@ function SingleComment(props) {
 
     const actions = [
         <LikeDislikes commentId={props.comment._id} userId={user.userId} />,
-        <span onClick={openReply} key="comment-basic-reply-to">답글</span>
+        props.depth < 2 ? <span onClick={openReply} key="comment-basic-reply-to">답글</span> : <span></span>
     ]
 
     return (
@@ -65,7 +65,7 @@ function SingleComment(props) {
                 }
             ></Comment>
             {console.log(props.depth)}
-            {OpenReply &&
+            {props.depth < 2 && OpenReply &&
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>
                     <TextArea
                         style={{ width: '100%', borderRadius: '5px' }}
